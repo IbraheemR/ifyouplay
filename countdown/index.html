@@ -1,0 +1,104 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<section id="main">
+    Playing in <span id="time-to-go"></span><br>
+    <div id="ytplayer"></div><br>
+    <span id="text">If you play '<span id="vname"></span>' at <span id="time"></span> on New Year's Eve, <span id="caption"></span></span>
+</section>
+
+<section id="video-error">
+    <p>
+        Invalid video tag or specified time is after video ends <br> <a href="/ifyouplay/">Take me back</a>
+    </p>
+</section>
+
+
+<style>
+
+    #video-error {
+        display: none;
+    }
+
+</style>
+
+<script>
+    getVar = function(item){
+        var svalue = location.search.match(new RegExp("[\?\&]" + item + "=([^\&]*)(\&?)","i"));
+        return svalue ? decodeURIComponent( svalue[1].replace(/\+/g, "%20") ) : "";
+    }
+
+
+    //get URL vars
+    var video_id = getVar("id");
+    var video_caption = getVar("caption");
+    var video_timestamp = getVar("timestamp");
+
+    var video_time;
+    var millisToNY;
+    var millisToPlay;
+
+    //hide text if no caption
+    if (! video_caption) {
+        $("#text").hide();
+    }
+
+    // Load the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // Replace the 'ytplayer' element with an <iframe> and
+    // YouTube player after the API code downloads.
+    var player;
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('ytplayer', {
+        height: '360',
+        width: '640',
+        videoId: video_id,
+
+        events: {
+            onError: function(ev) {
+                $("#main").hide();
+                $("#video-error").show();
+            },
+            onReady: function(ev) {
+                //set title
+                $("#vname").html(player.getVideoData().title);
+
+
+                if (video_timestamp) {
+                    var hms = video_timestamp.split(":");
+                    video_time = ((+hms[0]) * 60 * 60 + (+hms[1]) * 60 + (+hms[2])) * 1000;
+                    if (video_time > player.getDuration() * 1000) {
+                        $("#main").hide();
+                        $("#video-error").show();
+                    }
+                } else {
+                    video_time = player.getDuration() * 1000;
+                }
+
+                millisToNY = (new Date("2018")).getTime() - Date.now();
+                millisToPlay = millisToNY - video_time;
+
+                setTimeout(function(){player.playVideo()}, millisToPlay);
+
+                setInterval(function() {
+                    millisToPlay -= 100;
+
+                    var seconds = millisToPlay / 1000;
+                    var hours = parseInt( seconds / 3600 );
+                    seconds = seconds % 3600;
+                    var minutes = parseInt( seconds / 60 );
+                    seconds = Math.round(seconds % 60);
+                    $("#time-to-go").html(hours+":"+minutes+":"+seconds)
+
+                }, 100)
+            }
+        }
+        });
+    }
+
+    //set caption
+    $("#caption").html(video_caption);
+</script>
