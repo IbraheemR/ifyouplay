@@ -1,7 +1,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <section id="main">
-    Playing in <span id="time-to-go"></span><br>
+    <span id="p-time-to-go">Playing in <span id="time-to-go"></span></span>
+    <span id="p-time-to-ny"> New Year in <span id="time-to-ny"></span></span><br>
     <div id="ytplayer"></div><br>
     <span id="text">If you play '<span id="vname"></span>' at <span id="time"></span> on New Year's Eve, <span id="caption"></span></span>
 </section>
@@ -27,16 +28,29 @@
         return svalue ? decodeURIComponent( svalue[1].replace(/\+/g, "%20") ) : "";
     }
 
+    millisToHMS = function(millis) {
+        var seconds = millis / 1000;
+        var hours = parseInt( seconds / 3600 );
+        seconds = seconds % 3600;
+        var minutes = parseInt( seconds / 60 );
+        seconds = Math.round(seconds % 60);
+        return [hours, minutes, seconds]
+    }
+
 
     //get URL vars
     var video_uri = getVar("uri");
     var video_caption = getVar("caption");
-    var video_timestamp = getVar("timestamp");
+
+    var video_tm = Number(getVar("m"));
+    var video_ts = Number(getVar("s"));
 
     var video_time;
     var video_id;
     var millisToNY;
     var millisToPlay;
+    var targetMillis = (new Date("2017 Dec 25 20:16")).getTime();
+    var playing = false;
 
     //hide text if no caption
     if (! video_caption) {
@@ -45,12 +59,8 @@
 
     //scrap vid id from uri
     video_id = video_uri.match(/[a-zA-Z0-9_-]{11}/)
-    //if (! video_id) {
-      //  $("#main").hide();
-        //$("#video-error").show();
-    //}
 
-    // Load the IFrame Player API code asynchronously.
+    // Load the IFrame Player API code asynchronously
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/player_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -75,9 +85,8 @@
                 $("#vname").html(player.getVideoData().title);
 
 
-                if (video_timestamp) {
-                    var hms = video_timestamp.split(":");
-                    video_time = ((+hms[0]) * 60 * 60 + (+hms[1]) * 60 + (+hms[2])) * 1000;
+                if (video_tm || video_ts) {
+                    video_time = ((+video_tm) * 60 + (+video_ts)) * 1000;
                     if (video_time > player.getDuration() * 1000) {
                         $("#main").hide();
                         $("#video-error").show();
@@ -86,20 +95,28 @@
                     video_time = player.getDuration() * 1000;
                 }
 
-                millisToNY = (new Date("2018")).getTime() - Date.now();
+                millisToNY = targetMillis - Date.now();
                 millisToPlay = millisToNY - video_time;
 
-                setTimeout(function(){player.playVideo()}, millisToPlay);
-
                 setInterval(function() {
-                    millisToPlay -= 100;
+                    millisToNY = targetMillis - Date.now();
+                    millisToPlay = millisToNY - video_time;
 
-                    var seconds = millisToPlay / 1000;
-                    var hours = parseInt( seconds / 3600 );
-                    seconds = seconds % 3600;
-                    var minutes = parseInt( seconds / 60 );
-                    seconds = Math.round(seconds % 60);
-                    $("#time-to-go").html(hours+":"+minutes+":"+seconds)
+                    var hmsToPlay = millisToHMS(millisToPlay);
+                    $("#time-to-go").html(`${hmsToPlay[0]}:${hmsToPlay[1]}:${hmsToPlay[2]}`);
+                    var hmsToNY = millisToHMS(millisToNY);
+                    $("#time-to-ny").html(`${hmsToNY[0]}:${hmsToNY[1]}:${hmsToNY[2]}`);
+
+                    if (millisToPlay <= 0 && !playing) {
+                        player.playVideo()
+                        playing = true;
+                    }
+
+                    if (playing && ((player.getCurrentTime() > -millisToPlay + 1000) || (player.getCurrentTime() < -millisToPlay - 1000))) {
+
+                    }
+
+                    
 
                 }, 100)
             }
