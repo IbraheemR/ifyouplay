@@ -57,8 +57,7 @@
             margin: 15px auto;
             padding: 10px;
     
-            width: 100%;
-            max-width: 1060px;
+            width: 70%;
     
             display: block;
     
@@ -100,7 +99,8 @@
         #p-ytplayer {
             margin: 0px auto;
 
-            width: 640px;
+            width: 80%;
+            height: 60%;
         }
     
         footer {
@@ -174,8 +174,8 @@
     var player;
     function onYouTubePlayerAPIReady() {
         player = new YT.Player('ytplayer', {
-        height: '360',
-        width: '640',
+        height: '100%',
+        width: '100%',
         videoId: video_id,
 
         events: {
