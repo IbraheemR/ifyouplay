@@ -1,39 +1,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<div id="main">
-    <section>
-        <span id="p-time-to-go">Playing in <span id="time-to-go"></span></span>
-        <span id="p-time-to-ny"> New Year in <span id="time-to-ny"></span></span><br>
-    </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532532-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    <section>
-        <div id="p-ytplayer">
-            <div id="ytplayer"></div>
-        </div>
-    </section>
-
-    <section id="p-caption">
-        If you play '<span id="vname"></span>' at <span id="time"></span> on New Year's Eve, <span id="caption"></span>
-    </section>
-
-    <section id="p-share">
-            Share: <span id="share"></span>
-    </section>
-
-</div>
-
-<div id="video-error">
-    <section>
-        Invalid video tag or specified time is after video ends <br> <a href="/ifyouplay/">Take me back</a>
-    </section>
-</div>
+    gtag('config', 'UA-111532532-1');
+    </script>
 
 
-<footer>
-        &copy; Ibraheem Rodrigues 2017<br>
-        <a href="mailto:ibraheemrodrigues@gmail.com">ibraheemrodrigues@gmail.com</a>
-    </footer>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>'If You Play' Meme Countdown</title>
+
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+    window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+    "palette": {
+        "popup": {
+        "background": "#000"
+        },
+        "button": {
+        "background": "lightslategray"
+        }
+    },
+    })});
+</script>
+
     <style>
         body {
             margin: 0;
@@ -121,119 +122,156 @@
         }
     
     </style>
+</head>
+<body>
+    <div id="main">
+        <section>
+            <span id="p-time-to-go">Playing in <span id="time-to-go"></span></span>
+            <span id="p-time-to-ny"> New Year in <span id="time-to-ny"></span></span><br>
+        </section>
+    
+        <section>
+            <div id="p-ytplayer">
+                <div id="ytplayer"></div>
+            </div>
+        </section>
+    
+        <section id="p-caption">
+            If you play '<span id="vname"></span>' at <span id="time"></span> on New Year's Eve, <span id="caption"></span>
+        </section>
+    
+        <section id="p-share">
+                Share: <span id="share"></span>
+        </section>
+    
+    </div>
+    
+    <div id="video-error">
+        <section>
+            Invalid video tag or specified time is after video ends <br> <a href="/ifyouplay/">Take me back</a>
+        </section>
+    </div>
+    
+    
+    <footer>
+            &copy; Ibraheem Rodrigues 2017<br>
+            <a href="mailto:ibraheemrodrigues@gmail.com">ibraheemrodrigues@gmail.com</a>
+    </footer>
 
-<script>
-    getVar = function(item){
-        var svalue = location.search.match(new RegExp("[\?\&]" + item + "=([^\&]*)(\&?)","i"));
-        return svalue ? decodeURIComponent( svalue[1].replace(/\+/g, "%20") ) : "";
-    }
-
-    millisToHMS = function(millis) {
-        var seconds = millis / 1000;
-        var hours = parseInt( seconds / 3600 );
-        seconds = seconds % 3600;
-        var minutes = parseInt( seconds / 60 );
-        seconds = Math.round(seconds % 60);
-        return [hours, minutes, seconds]
-    }
-
-
-    //get URL vars
-    var video_uri = getVar("uri");
-    var video_caption = getVar("caption");
-
-    var video_tm = Number(getVar("m"));
-    var video_ts = Number(getVar("s"));
-
-    var video_time;
-    var video_id;
-    var millisToNY;
-    var millisToPlay;
-    var targetMillis = (new Date("2018")).getTime();
-    var playing = false;
-
-    //hide text if no caption
-    if (! video_caption) {
-        $("#p-caption").hide();
-    }
-
-    //add share link
-    $("#share").html(location.href)
-
-    //scrap vid id from uri
-    video_id = video_uri.match(/[a-zA-Z0-9_-]{11}/)
-
-    // Load the IFrame Player API code asynchronously
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/player_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    // Replace the 'ytplayer' element with an <iframe> and
-    // YouTube player after the API code downloads.
-    var player;
-    function onYouTubePlayerAPIReady() {
-        player = new YT.Player('ytplayer', {
-        height: '100%',
-        width: '100%',
-        videoId: video_id,
-        playerVars: {
-            controls: 0
-        },
-
-        events: {
-            onError: function(ev) {
-                $("#main").hide();
-                $("#video-error").show();
+    <script>
+        getVar = function(item){
+            var svalue = location.search.match(new RegExp("[\?\&]" + item + "=([^\&]*)(\&?)","i"));
+            return svalue ? decodeURIComponent( svalue[1].replace(/\+/g, "%20") ) : "";
+        }
+    
+        millisToHMS = function(millis) {
+            var seconds = millis / 1000;
+            var hours = parseInt( seconds / 3600 );
+            seconds = seconds % 3600;
+            var minutes = parseInt( seconds / 60 );
+            seconds = Math.round(seconds % 60);
+            return [hours, minutes, seconds]
+        }
+    
+    
+        //get URL vars
+        var video_uri = getVar("uri");
+        var video_caption = getVar("caption");
+    
+        var video_tm = Number(getVar("m"));
+        var video_ts = Number(getVar("s"));
+    
+        var video_time;
+        var video_id;
+        var millisToNY;
+        var millisToPlay;
+        var targetMillis = (new Date("2018")).getTime();
+        var playing = false;
+    
+        //hide text if no caption
+        if (! video_caption) {
+            $("#p-caption").hide();
+        }
+    
+        //add share link
+        $("#share").html(location.href)
+    
+        //scrap vid id from uri
+        video_id = video_uri.match(/[a-zA-Z0-9_-]{11}/)
+    
+        // Load the IFrame Player API code asynchronously
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+        // Replace the 'ytplayer' element with an <iframe> and
+        // YouTube player after the API code downloads.
+        var player;
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player('ytplayer', {
+            height: '100%',
+            width: '100%',
+            videoId: video_id,
+            playerVars: {
+                controls: 0
             },
-            onReady: function(ev) {
-                //set title
-                $("#vname").html(player.getVideoData().title);
-
-
-                if (video_tm || video_ts) {
-                    video_time = ((+video_tm) * 60 + (+video_ts)) * 1000;
-                    if (video_time > player.getDuration() * 1000) {
-                        $("#main").hide();
-                        $("#video-error").show();
+    
+            events: {
+                onError: function(ev) {
+                    $("#main").hide();
+                    $("#video-error").show();
+                },
+                onReady: function(ev) {
+                    //set title
+                    $("#vname").html(player.getVideoData().title);
+    
+    
+                    if (video_tm || video_ts) {
+                        video_time = ((+video_tm) * 60 + (+video_ts)) * 1000;
+                        if (video_time > player.getDuration() * 1000) {
+                            $("#main").hide();
+                            $("#video-error").show();
+                        }
+                    } else {
+                        video_time = player.getDuration() * 1000;
                     }
-                } else {
-                    video_time = player.getDuration() * 1000;
-                }
-
-                millisToNY = targetMillis - Date.now();
-                millisToPlay = millisToNY - video_time;
-
-                //set time of play
-                var d = new Date(Date.now() + millisToPlay);
-                $("#time").html(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)
-
-                setInterval(function() {
+    
                     millisToNY = targetMillis - Date.now();
                     millisToPlay = millisToNY - video_time;
-
-                    var hmsToPlay = millisToHMS(millisToPlay);
-                    $("#time-to-go").html(`${hmsToPlay[0]}:${hmsToPlay[1]}:${hmsToPlay[2]}`);
-                    var hmsToNY = millisToHMS(millisToNY);
-                    $("#time-to-ny").html(`${hmsToNY[0]}:${hmsToNY[1]}:${hmsToNY[2]}`);
-
-                    if (millisToPlay <= 2000 && !playing) {
-                        player.playVideo()
-                        playing = true;
-                    }
-                    
-
-                }, 100);
-                setInterval(function(){//skip video to correct time if buffering or already started etc.
-                    if (playing && ((player.getCurrentTime() > -(millisToPlay/1000) + 10) || (player.getCurrentTime() < -(millisToPlay/1000) - 10))) {
-                        player.seekTo(-millisToPlay / 1000, true)
-                    }
-                }, 3000);
+    
+                    //set time of play
+                    var d = new Date(Date.now() + millisToPlay);
+                    $("#time").html(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)
+    
+                    setInterval(function() {
+                        millisToNY = targetMillis - Date.now();
+                        millisToPlay = millisToNY - video_time;
+    
+                        var hmsToPlay = millisToHMS(millisToPlay);
+                        $("#time-to-go").html(`${hmsToPlay[0]}:${hmsToPlay[1]}:${hmsToPlay[2]}`);
+                        var hmsToNY = millisToHMS(millisToNY);
+                        $("#time-to-ny").html(`${hmsToNY[0]}:${hmsToNY[1]}:${hmsToNY[2]}`);
+    
+                        if (millisToPlay <= 2000 && !playing) {
+                            player.playVideo()
+                            playing = true;
+                        }
+                        
+    
+                    }, 100);
+                    setInterval(function(){//skip video to correct time if buffering or already started etc.
+                        if (playing && ((player.getCurrentTime() > -(millisToPlay/1000) + 10) || (player.getCurrentTime() < -(millisToPlay/1000) - 10))) {
+                            player.seekTo(-millisToPlay / 1000, true)
+                        }
+                    }, 3000);
+                }
             }
+            });
         }
-        });
-    }
-
-    //set caption
-    $("#caption").html(video_caption);
-</script>
+    
+        //set caption
+        $("#caption").html(video_caption);
+    </script>
+</body>
+</html>

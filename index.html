@@ -1,105 +1,145 @@
-<section>
-    <h1>'If you play' meme countdown generator</h1>
-    <p>Just give us a Youtube video, an optional caption an the time you want to coincide with the New Year, and we'll count you down and automatically play the video for you.</p>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532532-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-<section>
-    <form action="countdown/index.html" method="get">
+    gtag('config', 'UA-111532532-1');
+    </script>
 
-        If you play <input type="text" name="uri" id="form-uri" placeholder="<a youtube video URL, e.g 'https://www.youtube.com/watch?v=9alXo1OXTec'>" required> at XX:XX:XX on New Year's Eve,
-        <input type="text" name="caption" id="form-caption" placeholder="<an optional caption for your countdown, e.g 'it will finish at the beggining of the New Year and leave it in 2017 where it belongs'>"><br><br>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>'If You Play' Meme Countdown Generator</title>
 
-        Coincide <input type="number" name="m" value="0" min="0" max="99">:<input type="number" name="s" value="0" min="0" max="59"> in the video with the switch from 2017 to 2018 (leave at 0:0 for end of video)<br><br>
-        <input type="submit" value="Count me down!">
-    </form>
-</section>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+    window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+    "palette": {
+        "popup": {
+        "background": "#000"
+        },
+        "button": {
+        "background": "lightslategray"
+        }
+    },
+    })});
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+
+            background: linear-gradient(rgba(119, 136, 153, 0.5), rgba(119, 136, 153, 0.5)), url("circles-dark.png");
+
+            width: 100vw;
+            height: 100vh;
+
+            font-family: 'Roboto', sans-serif;
+
+            overflow: hidden;
+        }
+
+        h3 {
+            font-weight: normal;
+        }
+
+        section {
+            margin: 15px auto;
+            padding: 10px;
+
+            width: 70%;
+
+            display: block;
+
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+
+        input {
+            padding: 5px;
+            width: 200px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            height: 40px;
+
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            background-color: lightgray;
+        }
+        input[type="submit"]:active {
+            outline: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
+        }
 
 
-<footer>
-    &copy; Ibraheem Rodrigues 2017<br>
-    <a href="mailto:ibraheemrodrigues@gmail.com">ibraheemrodrigues@gmail.com</a>
-</footer>
+        input#form-caption, input#form-uri {
+            width: 100%;
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
+        }
 
-        background: linear-gradient(rgba(119, 136, 153, 0.5), rgba(119, 136, 153, 0.5)), url("circles-dark.png");
+        input[type="number"] {
+            width: initial;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
+            background-color: lightgray;
+        }
 
-        width: 100vw;
-        height: 100vh;
+        input[type="text"] {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
+            background-color: lightgray;
+        }
 
-        font-family: 'Roboto', sans-serif;
+        footer {
+            background-color: black;
+            position: fixed;
+            bottom: 0;
+            left: 0;
 
-        overflow: hidden;
-    }
+            color: white;
+            width: 100vw;
 
-    h3 {
-        font-weight: normal;
-    }
+            padding: 10px;
+        }
 
-    section {
-        margin: 15px auto;
-        padding: 10px;
+        #footer-content {
+            width: 100%;
+            max-width: 700px;
+        }
 
-        width: 70%;
+    </style>
+</head>
+<body>
+    <section>
+        <h1>'If you play' meme countdown generator</h1>
+        <p>Just give us a Youtube video, an optional caption an the time you want to coincide with the New Year, and we'll count you down and automatically play the video for you.</p>
+    </section>
+    
+    <section>
+        <form action="countdown/index.html" method="get">
+    
+            If you play <input type="text" name="uri" id="form-uri" placeholder="<a youtube video URL, e.g 'https://www.youtube.com/watch?v=9alXo1OXTec'>" required> at XX:XX:XX on New Year's Eve,
+            <input type="text" name="caption" id="form-caption" placeholder="<an optional caption for your countdown, e.g 'it will finish at the beggining of the New Year and leave it in 2017 where it belongs'>"><br><br>
+    
+            Coincide <input type="number" name="m" value="0" min="0" max="99">:<input type="number" name="s" value="0" min="0" max="59"> in the video with the switch from 2017 to 2018 (leave at 0:0 for end of video)<br><br>
+            <input type="submit" value="Count me down!">
+        </form>
+    </section>
+    
+    
+    <footer>
+        &copy; Ibraheem Rodrigues 2017<br>
+        <a href="mailto:ibraheemrodrigues@gmail.com">ibraheemrodrigues@gmail.com</a>
+    </footer>
+    
+</body>
+</html>
 
-        display: block;
 
-        background-color: white;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    }
-
-    input {
-        padding: 5px;
-        width: 200px;
-    }
-
-    input[type="submit"] {
-        width: 100%;
-        height: 40px;
-
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        background-color: lightgray;
-    }
-    input[type="submit"]:active {
-        outline: none;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
-    }
-
-
-    input#form-caption, input#form-uri {
-        width: 100%;
-
-    }
-
-    input[type="number"] {
-        width: initial;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
-        background-color: lightgray;
-    }
-
-    input[type="text"] {
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
-        background-color: lightgray;
-    }
-
-    footer {
-        background-color: black;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-
-        color: white;
-        width: 100vw;
-
-        padding: 10px;
-    }
-
-    #footer-content {
-        width: 100%;
-        max-width: 700px;
-    }
-
-</style>
