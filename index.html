@@ -33,6 +33,9 @@
     </script>
 
     <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
         body {
             margin: 0;
             padding: 0;
@@ -41,8 +44,6 @@
 
             width: 100vw;
             height: 100vh;
-
-            font-family: 'Roboto', sans-serif;
 
             overflow: hidden;
         }
@@ -70,13 +71,18 @@
 
         input[type="submit"] {
             width: 100%;
-            height: 40px;
+
+            font-size: 2em;
 
             box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             background-color: lightgray;
         }
+
+        input[type="submit"]:hover {
+            box-shadow: none;
+        }
+
         input[type="submit"]:active {
-            outline: none;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
         }
 
@@ -87,14 +93,12 @@
         }
 
         input[type="number"] {
-            outline: none;
             width: initial;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
             background-color: lightgray;
         }
 
         input[type="text"] {
-            outline: none;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
             background-color: lightgray;
         }
