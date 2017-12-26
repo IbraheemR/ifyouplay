@@ -204,6 +204,10 @@
                 millisToNY = targetMillis - Date.now();
                 millisToPlay = millisToNY - video_time;
 
+                //set time of play
+                var d = new Date(Date.now() + millisToPlay);
+                $("#time").html(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)
+
                 setInterval(function() {
                     millisToNY = targetMillis - Date.now();
                     millisToPlay = millisToNY - video_time;
