@@ -16,8 +16,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>'If You Play' Meme Countdown Generator</title>
 
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
     <script>
     window.addEventListener("load", function(){
     window.cookieconsent.initialise({
@@ -82,17 +82,19 @@
 
 
         input#form-caption, input#form-uri {
-            width: 100%;
+            width: calc(100% - 10px);
 
         }
 
         input[type="number"] {
+            outline: none;
             width: initial;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
             background-color: lightgray;
         }
 
         input[type="text"] {
+            outline: none;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
             background-color: lightgray;
         }
