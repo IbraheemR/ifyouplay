@@ -49,7 +49,7 @@
     var video_id;
     var millisToNY;
     var millisToPlay;
-    var targetMillis = (new Date("2017 Dec 25 20:16")).getTime();
+    var targetMillis = (new Date("2018")).getTime();
     var playing = false;
 
     //hide text if no caption
@@ -107,18 +107,18 @@
                     var hmsToNY = millisToHMS(millisToNY);
                     $("#time-to-ny").html(`${hmsToNY[0]}:${hmsToNY[1]}:${hmsToNY[2]}`);
 
-                    if (millisToPlay <= 0 && !playing) {
+                    if (millisToPlay <= 2000 && !playing) {
                         player.playVideo()
                         playing = true;
                     }
-
-                    if (playing && ((player.getCurrentTime() > -millisToPlay + 1000) || (player.getCurrentTime() < -millisToPlay - 1000))) {
-
-                    }
-
                     
 
-                }, 100)
+                }, 100);
+                setInterval(function(){//skip video to correct time if buffering or already started etc.
+                    if (playing && ((player.getCurrentTime() > -(millisToPlay/1000) + 10) || (player.getCurrentTime() < -(millisToPlay/1000) - 10))) {
+                        player.seekTo(-millisToPlay / 1000, true)
+                    }
+                }, 3000);
             }
         }
         });
