@@ -1,26 +1,126 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<section id="main">
-    <span id="p-time-to-go">Playing in <span id="time-to-go"></span></span>
-    <span id="p-time-to-ny"> New Year in <span id="time-to-ny"></span></span><br>
-    <div id="ytplayer"></div><br>
-    <span id="text">If you play '<span id="vname"></span>' at <span id="time"></span> on New Year's Eve, <span id="caption"></span></span>
-</section>
+<div id="main">
+    <section>
+        <span id="p-time-to-go">Playing in <span id="time-to-go"></span></span>
+        <span id="p-time-to-ny"> New Year in <span id="time-to-ny"></span></span><br>
+    </section>
 
-<section id="video-error">
-    <p>
+    <section>
+        <div id="p-ytplayer">
+            <div id="ytplayer"></div>
+        </div>
+    </section>
+
+    <section id="p-caption">
+        If you play '<span id="vname"></span>' at <span id="time"></span> on New Year's Eve, <span id="caption"></span>
+    </section>
+
+    <section id="p-share">
+            Share: <span id="share"></span>
+    </section>
+
+</div>
+
+<div id="video-error">
+    <section>
         Invalid video tag or specified time is after video ends <br> <a href="/ifyouplay/">Take me back</a>
-    </p>
-</section>
+    </section>
+</div>
 
 
-<style>
+<footer>
+        &copy; Ibraheem Rodrigues 2017<br>
+        <a href="mailto:ibraheemrodrigues@gmail.com">ibraheemrodrigues@gmail.com</a>
+    </footer>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+    
+            background: linear-gradient(rgba(119, 136, 153, 0.5), rgba(119, 136, 153, 0.5)), url("circles-dark.png");
+    
+            width: 100vw;
+            min-height: 100vh;
+    
+            font-family: 'Roboto', sans-serif;
+    
+            overflow-x: hidden;
+        }
+    
+        h3 {
+            font-weight: normal;
+        }
+    
+        section {
+            margin: 15px auto;
+            padding: 10px;
+    
+            width: 100%;
+            max-width: 1060px;
+    
+            display: block;
+    
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
 
-    #video-error {
-        display: none;
-    }
+        #video-error {
+            display: none;
+        }
 
-</style>
+        #p-time-to-go {
+            color: gray;
+        }
+
+        #p-time-to-ny {
+            color: gray;
+            float: right;
+        }
+
+        #time-to-go {
+            color: black;
+        }
+
+        #time-to-ny {
+            color: black;
+        }
+
+        #share {
+            padding: 5px;
+
+            display: block;
+            word-wrap: break-word;
+
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
+            background-color: lightgray;
+        }
+
+        #p-ytplayer {
+            margin: 0px auto;
+
+            width: 640px;
+        }
+    
+        footer {
+            background-color: black;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+    
+            color: white;
+            width: 100vw;
+    
+            padding: 10px;
+        }
+    
+        #footer-content {
+            width: 100%;
+            max-width: 700px;
+        }
+    
+    </style>
 
 <script>
     getVar = function(item){
@@ -54,8 +154,11 @@
 
     //hide text if no caption
     if (! video_caption) {
-        $("#text").hide();
+        $("#p-caption").hide();
     }
+
+    //add share link
+    $("#share").html(location.href)
 
     //scrap vid id from uri
     video_id = video_uri.match(/[a-zA-Z0-9_-]{11}/)
